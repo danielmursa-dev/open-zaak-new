@@ -22,6 +22,8 @@ attrs==25.3.0
     #   -c requirements/ci.txt
     #   -r requirements/ci.txt
     #   glom
+    #   jsonschema
+    #   referencing
 babel==2.17.0
     # via sphinx
 beautifulsoup4==4.13.4
@@ -92,6 +94,8 @@ django==5.2.4
     #   django-axes
     #   django-debug-toolbar
     #   django-extensions
+    #   django-extra-fields
+    #   django-filter
     #   django-formtools
     #   django-hijack
     #   django-jsonform
@@ -101,6 +105,8 @@ django==5.2.4
     #   django-rosetta
     #   django-solo
     #   django-two-factor-auth
+    #   djangorestframework
+    #   drf-spectacular
     #   maykin-2fa
     #   maykin-common
     #   mozilla-django-oidc
@@ -117,6 +123,14 @@ django-debug-toolbar==5.2.0
     # via -r requirements/dev.in
 django-extensions==4.1
     # via -r requirements/dev.in
+django-extra-fields==3.0.2
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+django-filter==25.1
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
 django-formtools==2.5.1
     # via
     #   -c requirements/ci.txt
@@ -172,10 +186,20 @@ django-webtest==1.9.13
     # via
     #   -c requirements/ci.txt
     #   -r requirements/ci.txt
+djangorestframework==3.16.0
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   django-extra-fields
+    #   drf-spectacular
 docutils==0.21.2
     # via
     #   sphinx
     #   sphinx-rtd-theme
+drf-spectacular==0.28.0
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
 ecs-logging==2.2.0
     # via
     #   -c requirements/ci.txt
@@ -227,6 +251,11 @@ idna==3.10
     #   requests
 imagesize==1.4.1
     # via sphinx
+inflection==0.5.1
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   drf-spectacular
 jinja2==3.1.6
     # via sphinx
 josepy==2.1.0
@@ -234,6 +263,16 @@ josepy==2.1.0
     #   -c requirements/ci.txt
     #   -r requirements/ci.txt
     #   mozilla-django-oidc
+jsonschema==4.24.0
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   drf-spectacular
+jsonschema-specifications==2025.4.1
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   jsonschema
 lxml==6.0.0
     # via
     #   -c requirements/ci.txt
@@ -338,6 +377,11 @@ python-ipware==3.0.0
     #   -c requirements/ci.txt
     #   -r requirements/ci.txt
     #   django-ipware
+pyyaml==6.0.2
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   drf-spectacular
 qrcode==7.4.2
     # via
     #   -c requirements/ci.txt
@@ -350,6 +394,12 @@ redis==6.2.0
     #   -c requirements/ci.txt
     #   -r requirements/ci.txt
     #   django-redis
+referencing==0.36.2
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.32.4
     # via
     #   -c requirements/ci.txt
@@ -365,6 +415,12 @@ rich-click==1.8.9
     # via bump-my-version
 roman-numerals-py==3.1.0
     # via sphinx
+rpds-py==0.26.0
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   jsonschema
+    #   referencing
 ruff==0.12.3
     # via
     #   -c requirements/ci.txt
@@ -434,6 +490,7 @@ typing-extensions==4.14.1
     #   pydantic-core
     #   pyopenssl
     #   qrcode
+    #   referencing
     #   rich-click
     #   typing-inspection
 typing-inspection==0.4.1
@@ -445,6 +502,11 @@ tzdata==2025.2
     #   -c requirements/ci.txt
     #   -r requirements/ci.txt
     #   faker
+uritemplate==4.2.0
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
+    #   drf-spectacular
 urllib3==2.5.0
     # via
     #   -c requirements/ci.txt

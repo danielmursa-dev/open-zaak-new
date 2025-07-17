@@ -16,6 +16,8 @@ attrs==25.3.0
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   glom
+    #   jsonschema
+    #   referencing
 beautifulsoup4==4.13.4
     # via webtest
 boltons==25.0.0
@@ -64,6 +66,8 @@ django==5.2.4
     #   -r requirements/base.txt
     #   django-admin-index
     #   django-axes
+    #   django-extra-fields
+    #   django-filter
     #   django-formtools
     #   django-hijack
     #   django-jsonform
@@ -73,6 +77,8 @@ django==5.2.4
     #   django-rosetta
     #   django-solo
     #   django-two-factor-auth
+    #   djangorestframework
+    #   drf-spectacular
     #   maykin-2fa
     #   maykin-common
     #   mozilla-django-oidc
@@ -82,6 +88,14 @@ django-admin-index==4.0.0
     #   -c requirements/base.txt
     #   -r requirements/base.txt
 django-axes==8.0.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+django-extra-fields==3.0.2
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+django-filter==25.1
     # via
     #   -c requirements/base.txt
     #   -r requirements/base.txt
@@ -138,6 +152,16 @@ django-two-factor-auth==1.17.0
     #   maykin-2fa
 django-webtest==1.9.13
     # via -r requirements/test-tools.in
+djangorestframework==3.16.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   django-extra-fields
+    #   drf-spectacular
+drf-spectacular==0.28.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
 ecs-logging==2.2.0
     # via
     #   -c requirements/base.txt
@@ -168,11 +192,26 @@ idna==3.10
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   requests
+inflection==0.5.1
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   drf-spectacular
 josepy==2.1.0
     # via
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   mozilla-django-oidc
+jsonschema==4.24.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   drf-spectacular
+jsonschema-specifications==2025.4.1
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   jsonschema
 lxml==6.0.0
     # via pyquery
 maykin-2fa==1.0.2
@@ -246,6 +285,11 @@ python-ipware==3.0.0
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   django-ipware
+pyyaml==6.0.2
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   drf-spectacular
 qrcode==7.4.2
     # via
     #   -c requirements/base.txt
@@ -256,12 +300,24 @@ redis==6.2.0
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   django-redis
+referencing==0.36.2
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.32.4
     # via
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   django-rosetta
     #   mozilla-django-oidc
+rpds-py==0.26.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   jsonschema
+    #   referencing
 ruff==0.12.3
     # via -r requirements/test-tools.in
 sentry-sdk==2.33.0
@@ -288,8 +344,14 @@ typing-extensions==4.14.1
     #   psycopg
     #   pyopenssl
     #   qrcode
+    #   referencing
 tzdata==2025.2
     # via faker
+uritemplate==4.2.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   drf-spectacular
 urllib3==2.5.0
     # via
     #   -c requirements/base.txt

@@ -45,6 +45,7 @@ urlpatterns = [
     path("admin/", include((webauthn_urlpatterns, "two_factor"))),
     path("admin/hijack/", include("hijack.urls")),
     path("admin/", admin.site.urls),
+    path("", include("openzaak_new.components.urls")),
     path(
         "reset/<uidb64>/<token>/",
         auth_views.PasswordResetConfirmView.as_view(),

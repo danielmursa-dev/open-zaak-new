@@ -111,6 +111,7 @@ INSTALLED_APPS = [
     # OIDC applications.
     "django_jsonform",
     "solo",
+    "rest_framework",
     "mozilla_django_oidc",
     "mozilla_django_oidc_db",
     # 'django.contrib.admindocs',
@@ -124,6 +125,7 @@ INSTALLED_APPS = [
     # Project applications.
     "openzaak_new.accounts",
     "openzaak_new.utils",
+    "openzaak_new.components.zaken",
 ]
 
 MIDDLEWARE = [

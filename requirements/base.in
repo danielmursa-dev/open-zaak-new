@@ -16,10 +16,10 @@ maykin-common[axes,mfa]  # other extras: pdf
 mozilla-django-oidc-db
 
 # API libraries
-# djangorestframework
-# django-extra-fields
-# django-filter
-# drf-spectacular
+djangorestframework
+django-extra-fields
+django-filter
+drf-spectacular
 
 # WSGI servers & monitoring - production oriented
 uwsgi
