@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           # don't bother with uv, ruff is just a single binary, there's nothing to gain here
-          grep ^ruff requirements/ci.txt | pip install --system -r /dev/stdin
+          grep ^ruff requirements/ci.txt | pip install -r /dev/stdin
       - run: |
           ruff check --output-format=github .
 
@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           # don't bother with uv, ruff is just a single binary, there's nothing to gain here
-          grep ^ruff requirements/ci.txt | pip install --system -r /dev/stdin
+          grep ^ruff requirements/ci.txt | pip install -r /dev/stdin
       - run: |
           ruff format --check --diff
 

@@ -150,7 +150,7 @@ jobs:
 
     name: Push Docker image
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' # Exclude PRs
+    if: false # TODO 
 
     steps:
       - name: Download built image
