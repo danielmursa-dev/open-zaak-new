@@ -8,8 +8,12 @@ gitpython
 # Debug tooling
 django-debug-toolbar
 django-extensions
+django-silk
+pyinstrument
 
 # Documentation
 sphinx
 sphinx_rtd_theme
 
+# Test
+locust
