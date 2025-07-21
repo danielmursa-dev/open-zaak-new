@@ -552,6 +552,10 @@ tblib==3.1.0
     #   -r requirements/ci.txt
 tomlkit==0.13.3
     # via bump-my-version
+tqdm==4.67.1
+    # via
+    #   -c requirements/ci.txt
+    #   -r requirements/ci.txt
 typing-extensions==4.14.1
     # via
     #   -c requirements/ci.txt

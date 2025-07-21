@@ -4,4 +4,8 @@ from django.db import models
 
 
 class Zaak(models.Model):
-    pass
+    omschrijving = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text="Een korte omschrijving van de zaak.",
+    )

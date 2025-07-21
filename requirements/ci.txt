@@ -335,6 +335,10 @@ sqlparse==0.5.3
     #   django
 tblib==3.1.0
     # via -r requirements/test-tools.in
+tqdm==4.67.1
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
 typing-extensions==4.14.1
     # via
     #   -c requirements/base.txt

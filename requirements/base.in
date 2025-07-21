@@ -28,3 +28,6 @@ elastic-apm  # Elastic APM integration
 
 #postgres package
 psycopg2-binary
+
+# Test
+tqdm

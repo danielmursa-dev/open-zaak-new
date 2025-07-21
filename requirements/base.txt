@@ -167,6 +167,8 @@ sentry-sdk==2.33.0
     # via -r requirements/base.in
 sqlparse==0.5.3
     # via django
+tqdm==4.67.1
+    # via -r requirements/base.in
 typing-extensions==4.14.1
     # via
     #   mozilla-django-oidc-db
