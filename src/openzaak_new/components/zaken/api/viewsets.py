@@ -5,5 +5,5 @@ from .serializers import ZaakSerializer
 
 
 class ZaakViewSet(viewsets.ModelViewSet):
-    queryset = Zaak.objects.all()  # .order_by("-pk")
+    queryset = Zaak.objects.all()
     serializer_class = ZaakSerializer
