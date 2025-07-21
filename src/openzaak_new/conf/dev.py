@@ -2,7 +2,7 @@
 import os
 import warnings
 
-os.environ.setdefault("DEBUG", "yes")
+os.environ.setdefault("DEBUG", "no")
 os.environ.setdefault("ALLOWED_HOSTS", "*")
 os.environ.setdefault(
     "SECRET_KEY",
@@ -69,6 +69,12 @@ CACHES = {
     "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
     "axes": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"},
 }
+
+# DJANGO SILK
+if False:
+    INSTALLED_APPS += ["silk"]
+    MIDDLEWARE = ["silk.middleware.SilkyMiddleware"] + MIDDLEWARE
+    security_index = MIDDLEWARE.index("django.middleware.security.SecurityMiddleware")
 
 #
 # Library settings
