@@ -6,4 +6,4 @@ from ..models import Zaak
 class ZaakSerializer(serializers.ModelSerializer):
     class Meta:
         model = Zaak
-        fields = ["id", "omschrijving"]
+        fields = ["id", "uuid", "omschrijving"]
