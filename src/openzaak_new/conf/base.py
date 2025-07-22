@@ -6,6 +6,7 @@ from pathlib import Path
 from django.urls import reverse_lazy
 
 import sentry_sdk
+from open_api_framework.conf.base import *  # noqa
 
 from .utils import config, get_sentry_integrations
 
@@ -88,41 +89,7 @@ CACHES = {
 # APPLICATIONS enabled for this project
 #
 
-INSTALLED_APPS = [
-    "django.contrib.auth",
-    "django.contrib.sessions",
-    "django.contrib.contenttypes",
-    # NOTE: If enabled, at least one Site object is required and
-    # uncomment SITE_ID above.
-    # 'django.contrib.sites',
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    # Two-factor authentication in the Django admin, enforced.
-    "django_otp",
-    "django_otp.plugins.otp_static",
-    "django_otp.plugins.otp_totp",
-    "two_factor",
-    "two_factor.plugins.webauthn",  # USB key/token support
-    "maykin_2fa",
-    # Optional applications.
-    "ordered_model",
-    "django_admin_index",
-    "django.contrib.admin",
-    # OIDC applications.
-    "django_jsonform",
-    "solo",
-    "rest_framework",
-    "mozilla_django_oidc",
-    "mozilla_django_oidc_db",
-    # 'django.contrib.admindocs',
-    # 'django.contrib.humanize',
-    # 'django.contrib.sitemaps',
-    # External applications.
-    "axes",
-    "hijack",
-    "hijack.contrib.admin",
-    "maykin_common",
-    # Project applications.
+INSTALLED_APPS = INSTALLED_APPS + [
     "openzaak_new.accounts",
     "openzaak_new.utils",
     "openzaak_new.components.zaken",

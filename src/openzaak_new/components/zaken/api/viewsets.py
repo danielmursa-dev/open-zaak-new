@@ -24,5 +24,6 @@ class ExactPagination(DynamicPageSizeMixin, PageNumberPagination):
 
 class ZaakViewSet(viewsets.ModelViewSet):
     queryset = Zaak.objects.all().order_by("-pk")
+    lookup_field = "uuid"
     serializer_class = ZaakSerializer
     pagination_class = ExactPagination
