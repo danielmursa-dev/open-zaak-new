@@ -22,7 +22,7 @@ def reverse_with_version(api: str, version: Optional[str] = None) -> str:
 
 def get_version_mapping() -> Dict[str, str]:
     apis = ["zaken"]
-    return {}
+
     return {
         reverse_with_version(api, version="1"): getattr(
             settings, f"{api.upper()}_API_VERSION"
@@ -52,7 +52,6 @@ class APIVersionHeaderMiddleware(_APIVersionHeaderMiddleware):
         return response
 
     def _get_version(self, path: str) -> Optional[str]:
-        return None
         for prefix, version in self.version_mapping.items():
             if path.startswith(prefix):
                 return version

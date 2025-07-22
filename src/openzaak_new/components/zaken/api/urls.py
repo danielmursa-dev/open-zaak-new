@@ -9,7 +9,7 @@ router.register("zaken", ZaakViewSet)
 
 urlpatterns = [
     re_path(
-        r"^v1/",
+        r"^v(?P<version>\d+)/",
         include(
             [
                 # actual API
