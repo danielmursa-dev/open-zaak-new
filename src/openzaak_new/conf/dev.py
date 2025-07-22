@@ -76,6 +76,10 @@ if False:
     MIDDLEWARE = ["silk.middleware.SilkyMiddleware"] + MIDDLEWARE
     security_index = MIDDLEWARE.index("django.middleware.security.SecurityMiddleware")
 
+if False:  # pragma:no cover
+    MIDDLEWARE = ["openzaak_new.utils.middleware.PyInstrumentMiddleware"] + MIDDLEWARE
+
+
 #
 # Library settings
 #

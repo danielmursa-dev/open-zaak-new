@@ -9,9 +9,10 @@ router.register("zaken", ZaakViewSet)
 
 urlpatterns = [
     re_path(
-        r"^v(?P<version>\d+)/",
+        r"^v1/",
         include(
             [
+                # actual API
                 path("", include(router.urls)),
                 path("", router.APIRootView.as_view(), name="api-root-zaken"),
                 path("", include("vng_api_common.notifications.api.urls")),

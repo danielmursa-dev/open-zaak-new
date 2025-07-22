@@ -1,22 +1,15 @@
 from rest_framework import serializers
+from vng_api_common.serializers import CachedHyperlinkedIdentityField
 
 from ..models import Zaak
 
 
 class ZaakSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedRelatedField(
-        view_name="zaak-detail",
-        lookup_field="uuid",
-        read_only=True,
-    )
+    url = CachedHyperlinkedIdentityField(view_name="zaak-detail", lookup_field="uuid")
 
     class Meta:
         model = Zaak
+        fields = ("url", "omschrijving")
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},
-            "uuid": {"read_only": True},
         }
-        fields = (
-            "url",
-            "omschrijving",
-        )
