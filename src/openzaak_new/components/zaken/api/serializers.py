@@ -39,6 +39,10 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "verantwoordelijke_organisatie",
             "opdrachtgevende_organisatie",
             "zaakgeometrie",
+            "verlenging_duur",
+            "vertrouwelijkheidaanduiding",
+            "selectielijstklasse",
+            "communicatiekanaal",
         )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},

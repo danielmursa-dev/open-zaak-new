@@ -6,10 +6,16 @@ from django.db import models
 from django.utils import timezone
 
 from vng_api_common.constants import Archiefnominatie
-from vng_api_common.fields import RSINField
+from vng_api_common.fields import RSINField, VertrouwelijkheidsAanduidingField
 from vng_api_common.models import APIMixin as _APIMixin
 
 from .constants import BetalingsIndicatie
+from relativedeltafield import RelativeDeltaField
+
+
+class DurationField(RelativeDeltaField):
+    def formfield(self, form_class=None, **kwargs):
+        return super().formfield(form_class=form_class, **kwargs)
 
 
 class APIMixin(_APIMixin):
@@ -163,3 +169,12 @@ class Zaak(APIMixin, models.Model):
         blank=True,
         null=True,
     )
+
+    verlenging_duur = DurationField(
+        blank=True,
+        null=True,
+    )
+
+    vertrouwelijkheidaanduiding = VertrouwelijkheidsAanduidingField(default="openbaar")
+    selectielijstklasse = models.URLField(blank=True)
+    communicatiekanaal = models.URLField(blank=True)
