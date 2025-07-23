@@ -1,16 +1,47 @@
 import datetime
 import uuid
+from typing import Optional
 
 from django.contrib.gis.db.models import GeometryField
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils import timezone
 
+from relativedeltafield import RelativeDeltaField
 from vng_api_common.constants import Archiefnominatie
+from vng_api_common.descriptors import GegevensGroepType
 from vng_api_common.fields import RSINField, VertrouwelijkheidsAanduidingField
 from vng_api_common.models import APIMixin as _APIMixin
 
 from .constants import BetalingsIndicatie
-from relativedeltafield import RelativeDeltaField
+
+
+class GegevensGroepTypeWithReadOnlyFields(GegevensGroepType):
+    """
+    The GegevensGroepType __set__ method sets fields that were not passed to their default value.
+    Zaak.opschorting has the field `eerdere_opschorting` as an internal read only value that should not be changeable.
+
+    This subclass adds read only fields that will be set to their current value when __set__ is called.
+    """
+
+    def __init__(self, read_only: tuple = None, **kwargs):
+        super().__init__(**kwargs)
+
+        self.read_only = read_only
+
+        read_only_fields_known = set(self.read_only).issubset(set(self.mapping.keys()))
+        assert read_only_fields_known, (
+            "The fields in 'read_only' must be a subset of the mapping keys"
+        )
+
+    def __set__(self, obj, value: Optional[dict]):
+        if not value:
+            value = {}
+
+        for key in self.read_only:
+            value[key] = getattr(obj, self.mapping[key].name)
+
+        super().__set__(obj, value)
 
 
 class DurationField(RelativeDeltaField):
@@ -178,3 +209,30 @@ class Zaak(APIMixin, models.Model):
     vertrouwelijkheidaanduiding = VertrouwelijkheidsAanduidingField(default="openbaar")
     selectielijstklasse = models.URLField(blank=True)
     communicatiekanaal = models.URLField(blank=True)
+
+    producten_of_diensten = ArrayField(
+        models.URLField(max_length=1000),
+        default=list,
+        blank=True,
+    )
+
+    # Descriptors
+    processobject = GegevensGroepType(
+        {
+            "datumkenmerk": processobject_datumkenmerk,
+            "identificatie": processobject_identificatie,
+            "objecttype": processobject_objecttype,
+            "registratie": processobject_registratie,
+        },
+    )
+
+    opschorting = GegevensGroepTypeWithReadOnlyFields(
+        mapping={
+            "indicatie": opschorting_indicatie,
+            "eerdere_opschorting": opschorting_eerdere_opschorting,
+            "reden": opschorting_reden,
+        },
+        read_only=("eerdere_opschorting",),
+    )
+
+    verlenging = GegevensGroepType({"reden": verlenging_reden, "duur": verlenging_duur})

@@ -43,6 +43,7 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "vertrouwelijkheidaanduiding",
             "selectielijstklasse",
             "communicatiekanaal",
+            "producten_of_diensten",
         )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},
