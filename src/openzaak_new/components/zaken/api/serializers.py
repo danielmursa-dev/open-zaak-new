@@ -9,7 +9,24 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Zaak
-        fields = ("url", "omschrijving")
+        fields = (
+            "url",
+            "omschrijving",
+            "toelichting",
+            "betalingsindicatie",
+            "verlenging_reden",
+            "opschorting_reden",
+            "opschorting_indicatie",
+            "opschorting_eerdere_opschorting",
+            "archiefnominatie",
+            "archiefstatus",
+            "processobjectaard",
+            "processobject_datumkenmerk",
+            "processobject_identificatie",
+            "processobject_objecttype",
+            "processobject_registratie",
+            "communicatiekanaal_naam",
+        )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},
         }

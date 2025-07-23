@@ -2,8 +2,9 @@ import uuid
 
 from django.db import models
 
-# Create your models here.
 from vng_api_common.models import APIMixin as _APIMixin
+from vng_api_common.constants import Archiefnominatie
+from .constants import BetalingsIndicatie
 
 
 class APIMixin(_APIMixin):
@@ -21,4 +22,81 @@ class Zaak(APIMixin, models.Model):
     uuid = models.UUIDField(
         default=uuid.uuid4,
         help_text="Unieke resource identifier (UUID4)",
+    )
+
+    toelichting = models.TextField(
+        max_length=1000,
+        blank=True,
+    )
+
+    betalingsindicatie = models.CharField(
+        "betalingsindicatie",
+        max_length=20,
+        blank=True,
+        choices=BetalingsIndicatie.choices,
+    )
+    verlenging_reden = models.CharField(
+        "reden verlenging",
+        max_length=200,
+        blank=True,
+    )
+    opschorting_reden = models.CharField(
+        "reden opschorting",
+        max_length=200,
+        blank=True,
+    )
+    opschorting_indicatie = models.BooleanField(
+        "indicatie opschorting",
+        default=False,
+        blank=True,
+    )
+    opschorting_eerdere_opschorting = models.BooleanField(
+        "eerdere opschorting",
+        default=False,
+        blank=True,
+    )
+
+    archiefnominatie = models.CharField(
+        "archiefnominatie",
+        max_length=40,
+        null=True,
+        blank=True,
+        choices=Archiefnominatie.choices,
+        db_index=True,
+    )
+    archiefstatus = models.CharField(
+        "archiefstatus",
+        max_length=40,
+        null=True,
+        db_index=True,
+    )
+    processobjectaard = models.CharField(
+        "procesobjectaard",
+        max_length=200,
+        blank=True,
+    )
+    processobject_datumkenmerk = models.CharField(
+        "datumkenmerk",
+        max_length=250,
+        blank=True,
+    )
+    processobject_identificatie = models.CharField(
+        "identificatie",
+        max_length=250,
+        blank=True,
+    )
+    processobject_objecttype = models.CharField(
+        "objecttype",
+        max_length=250,
+        blank=True,
+    )
+    processobject_registratie = models.CharField(
+        "registratie",
+        max_length=250,
+        blank=True,
+    )
+    communicatiekanaal_naam = models.CharField(
+        "communicatiekanaal naam",
+        max_length=250,
+        blank=True,
     )
