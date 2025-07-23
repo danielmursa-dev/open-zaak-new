@@ -2,8 +2,9 @@ import uuid
 
 from django.db import models
 
-from vng_api_common.models import APIMixin as _APIMixin
 from vng_api_common.constants import Archiefnominatie
+from vng_api_common.models import APIMixin as _APIMixin
+
 from .constants import BetalingsIndicatie
 
 
