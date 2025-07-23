@@ -1,11 +1,58 @@
 from rest_framework import serializers
-from vng_api_common.serializers import CachedHyperlinkedIdentityField
+from vng_api_common.serializers import (
+    CachedHyperlinkedIdentityField,
+    GegevensGroepSerializer,
+)
 
 from ..models import Zaak
 
 
+class ProcessobjectSerializer(GegevensGroepSerializer):
+    class Meta:
+        model = Zaak
+        gegevensgroep = "processobject"
+
+
+class OpschortingSerializer(GegevensGroepSerializer):
+    class Meta:
+        model = Zaak
+        gegevensgroep = "opschorting"
+        extra_kwargs = {
+            "indicatie": {"label": "Indicatie"},
+            "eerdere_opschorting": {
+                "label": "Eerdere opschorting",
+                "read_only": True,
+            },
+            "reden": {"label": "Reden", "allow_blank": True},
+        }
+
+
+class VerlengingSerializer(GegevensGroepSerializer):
+    class Meta:
+        model = Zaak
+        gegevensgroep = "verlenging"
+        extra_kwargs = {"reden": {"label": "Reden"}, "duur": {"label": "Duur"}}
+
+    def to_representation(self, instance):
+        if not instance["duur"]:
+            return None
+        return super().to_representation(instance)
+
+
 class ZaakSerializer(serializers.HyperlinkedModelSerializer):
     url = CachedHyperlinkedIdentityField(view_name="zaak-detail", lookup_field="uuid")
+    processobject = ProcessobjectSerializer(
+        required=False,
+        allow_null=True,
+    )
+    opschorting = OpschortingSerializer(
+        required=False,
+        allow_null=True,
+    )
+    verlenging = VerlengingSerializer(
+        required=False,
+        allow_null=True,
+    )
 
     class Meta:
         model = Zaak
@@ -14,17 +61,11 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "omschrijving",
             "toelichting",
             "betalingsindicatie",
-            "verlenging_reden",
-            "opschorting_reden",
-            "opschorting_indicatie",
-            "opschorting_eerdere_opschorting",
+            "opschorting",
             "archiefnominatie",
             "archiefstatus",
             "processobjectaard",
-            "processobject_datumkenmerk",
-            "processobject_identificatie",
-            "processobject_objecttype",
-            "processobject_registratie",
+            "processobject",
             "communicatiekanaal_naam",
             "registratiedatum",
             "startdatum",
@@ -39,7 +80,7 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "verantwoordelijke_organisatie",
             "opdrachtgevende_organisatie",
             "zaakgeometrie",
-            "verlenging_duur",
+            "verlenging",
             "vertrouwelijkheidaanduiding",
             "selectielijstklasse",
             "communicatiekanaal",
