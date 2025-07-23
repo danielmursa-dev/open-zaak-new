@@ -1,10 +1,12 @@
 import datetime
 import uuid
 
+from django.contrib.gis.db.models import GeometryField
 from django.db import models
 from django.utils import timezone
 
 from vng_api_common.constants import Archiefnominatie
+from vng_api_common.fields import RSINField
 from vng_api_common.models import APIMixin as _APIMixin
 
 from .constants import BetalingsIndicatie
@@ -151,4 +153,13 @@ class Zaak(APIMixin, models.Model):
     )
     created_on = models.DateTimeField(
         default=timezone.now,  # DELETE, only for tests
+    )
+
+    # Custom Fields
+    verantwoordelijke_organisatie = RSINField(default="123456782")
+    opdrachtgevende_organisatie = RSINField(default="123456782")
+
+    zaakgeometrie = GeometryField(
+        blank=True,
+        null=True,
     )

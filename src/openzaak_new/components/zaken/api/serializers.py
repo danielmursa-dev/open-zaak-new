@@ -36,6 +36,9 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "archiefactiedatum",
             "startdatum_bewaartermijn",
             "created_on",
+            "verantwoordelijke_organisatie",
+            "opdrachtgevende_organisatie",
+            "zaakgeometrie",
         )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},

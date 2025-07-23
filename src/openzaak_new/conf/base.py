@@ -55,7 +55,7 @@ USE_THOUSAND_SEPARATOR = True
 #
 DATABASES = {
     "default": {
-        "ENGINE": config("DB_ENGINE", "django.db.backends.postgresql"),
+        "ENGINE": config("DB_ENGINE", "django.contrib.gis.db.backends.postgis"),
         "NAME": config("DB_NAME", "openzaak_new"),
         "USER": config("DB_USER", "openzaak_new"),
         "PASSWORD": config("DB_PASSWORD", "openzaak_new"),
