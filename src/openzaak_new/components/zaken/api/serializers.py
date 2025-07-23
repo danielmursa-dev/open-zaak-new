@@ -26,6 +26,16 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "processobject_objecttype",
             "processobject_registratie",
             "communicatiekanaal_naam",
+            "registratiedatum",
+            "startdatum",
+            "einddatum",
+            "einddatum_gepland",
+            "uiterlijke_einddatum_afdoening",
+            "publicatiedatum",
+            "laatste_betaaldatum",
+            "archiefactiedatum",
+            "startdatum_bewaartermijn",
+            "created_on",
         )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},

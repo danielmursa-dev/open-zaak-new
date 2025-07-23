@@ -1,6 +1,8 @@
+import datetime
 import uuid
 
 from django.db import models
+from django.utils import timezone
 
 from vng_api_common.constants import Archiefnominatie
 from vng_api_common.models import APIMixin as _APIMixin
@@ -15,16 +17,17 @@ class APIMixin(_APIMixin):
 
 
 class Zaak(APIMixin, models.Model):
-    omschrijving = models.CharField(
-        max_length=80,
-        blank=True,
-        help_text="Een korte omschrijving van de zaak.",
-    )
     uuid = models.UUIDField(
         default=uuid.uuid4,
         help_text="Unieke resource identifier (UUID4)",
     )
 
+    # CharFields
+    omschrijving = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text="Een korte omschrijving van de zaak.",
+    )
     toelichting = models.TextField(
         max_length=1000,
         blank=True,
@@ -100,4 +103,52 @@ class Zaak(APIMixin, models.Model):
         "communicatiekanaal naam",
         max_length=250,
         blank=True,
+    )
+
+    # Date and Datetime Fields
+    registratiedatum = models.DateField(
+        default=datetime.date.today,
+    )
+    startdatum = models.DateField(
+        db_index=True,
+        default=datetime.date.today,  # DELETE, only for tests
+    )
+    einddatum = models.DateField(
+        blank=True,
+        null=True,
+        default=datetime.date.today,  # DELETE, only for tests
+    )
+    einddatum_gepland = models.DateField(
+        blank=True,
+        null=True,
+        default=datetime.date.today,  # DELETE, only for tests
+    )
+    uiterlijke_einddatum_afdoening = models.DateField(
+        blank=True,
+        null=True,
+        default=datetime.date.today,  # DELETE, only for tests
+    )
+    publicatiedatum = models.DateField(
+        null=True,
+        blank=True,
+        default=datetime.date.today,  # DELETE, only for tests
+    )
+    laatste_betaaldatum = models.DateTimeField(
+        blank=True,
+        null=True,
+        default=timezone.now,  # DELETE, only for tests
+    )
+    archiefactiedatum = models.DateField(
+        null=True,
+        blank=True,
+        db_index=True,
+        default=datetime.date.today,  # DELETE, only for tests
+    )
+    startdatum_bewaartermijn = models.DateField(
+        null=True,
+        blank=True,
+        default=datetime.date.today,  # DELETE, only for tests
+    )
+    created_on = models.DateTimeField(
+        default=timezone.now,  # DELETE, only for tests
     )
