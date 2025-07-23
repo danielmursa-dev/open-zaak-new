@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 
 import sentry_sdk
 from open_api_framework.conf.base import *  # noqa
+from vng_api_common.conf.api import BASE_REST_FRAMEWORK
 
 from .utils import config, get_sentry_integrations
 
@@ -468,16 +469,12 @@ SUBPATH = config("SUBPATH", None)
 if SUBPATH:
     SUBPATH = f"/{SUBPATH.strip('/')}"
 
-REST_FRAMEWORK = {
-    "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
-    ],
-    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
-    "DEFAULT_VERSION": "1",
-    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    # "PAGE_SIZE": 100,
-}
 
+REST_FRAMEWORK = BASE_REST_FRAMEWORK.copy()
+REST_FRAMEWORK["PAGE_SIZE"] = 100
+REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
+    "rest_framework.renderers.JSONRenderer",
+]
 APPEND_SLASH = False
 
 ZAKEN_API_VERSION = "1.5.1"
