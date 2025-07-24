@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator as DjangoPaginator
+from django.db.models import F, Prefetch
 from django.utils.functional import cached_property
 
 from rest_framework import viewsets
@@ -49,7 +50,16 @@ class ExactPagination(DynamicPageSizeMixin, PageNumberPagination):
 
 
 class ZaakViewSet(CacheQuerysetMixin, viewsets.ModelViewSet):
-    queryset = Zaak.objects.prefetch_related("deelzaken").order_by("-pk")
+    queryset = (
+        Zaak.objects.select_related("hoofdzaak")
+        .prefetch_related(
+            Prefetch(
+                "deelzaken", queryset=Zaak.objects.only("uuid", "pk", "hoofdzaak_id")
+            )
+        )
+        # .annotate(hoofdzaak_uuid=F("hoofdzaak__uuid"))
+        .order_by("-pk")
+    )
     serializer_class = ZaakSerializer
     lookup_field = "uuid"
     pagination_class = ExactPagination
