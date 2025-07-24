@@ -102,6 +102,16 @@ commonground-api-common==2.8.0
     # via
     #   -c requirements/base.txt
     #   -r requirements/base.txt
+coreapi==2.3.3
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   django-loose-fk
+coreschema==0.0.4
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   coreapi
 coverage==7.9.2
     # via -r requirements/test-tools.in
 cryptography==45.0.5
@@ -129,6 +139,7 @@ django==5.2.4
     #   django-hijack
     #   django-jsonform
     #   django-log-outgoing-requests
+    #   django-loose-fk
     #   django-otp
     #   django-phonenumber-field
     #   django-privates
@@ -178,6 +189,7 @@ django-filter==25.1
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   commonground-api-common
+    #   django-loose-fk
     #   open-api-framework
 django-formtools==2.5.1
     # via
@@ -203,6 +215,10 @@ django-log-outgoing-requests==0.6.1
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   open-api-framework
+django-loose-fk==1.1.2
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
 django-ordered-model==3.7.4
     # via
     #   -c requirements/base.txt
@@ -288,6 +304,7 @@ djangorestframework==3.16.0
     #   -r requirements/base.txt
     #   commonground-api-common
     #   django-extra-fields
+    #   django-loose-fk
     #   drf-nested-routers
     #   drf-spectacular
     #   notifications-api-common
@@ -365,6 +382,16 @@ iso639-lang==2.6.2
     #   -c requirements/base.txt
     #   -r requirements/base.txt
     #   commonground-api-common
+itypes==1.2.0
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   coreapi
+jinja2==3.1.6
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   coreschema
 josepy==2.1.0
     # via
     #   -c requirements/base.txt
@@ -387,6 +414,11 @@ kombu==5.5.4
     #   celery
 lxml==6.0.0
     # via pyquery
+markupsafe==3.0.2
+    # via
+    #   -c requirements/base.txt
+    #   -r requirements/base.txt
+    #   jinja2
 maykin-2fa==1.0.2
     # via
     #   -c requirements/base.txt
@@ -554,6 +586,7 @@ requests==2.32.4
     #   -r requirements/base.txt
     #   ape-pie
     #   commonground-api-common
+    #   coreapi
     #   django-log-outgoing-requests
     #   django-rosetta
     #   mozilla-django-oidc
@@ -637,6 +670,7 @@ uritemplate==4.2.0
     # via
     #   -c requirements/base.txt
     #   -r requirements/base.txt
+    #   coreapi
     #   drf-spectacular
 urllib3==2.5.0
     # via

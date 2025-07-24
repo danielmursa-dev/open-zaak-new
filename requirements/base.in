@@ -16,6 +16,8 @@ maykin-common[axes,mfa]  # other extras: pdf
 mozilla-django-oidc-db
 commonground-api-common
 open-api-framework
+django-loose-fk
+
 # API libraries
 djangorestframework
 django-extra-fields

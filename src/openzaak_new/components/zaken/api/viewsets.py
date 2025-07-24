@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator as DjangoPaginator
-from django.db.models import F, Prefetch
+from django.db.models import Prefetch
 from django.utils.functional import cached_property
 
 from rest_framework import viewsets

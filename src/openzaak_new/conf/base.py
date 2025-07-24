@@ -94,6 +94,7 @@ INSTALLED_APPS = INSTALLED_APPS + [
     "openzaak_new.accounts",
     "openzaak_new.utils",
     "openzaak_new.components.zaken",
+    "openzaak_new.components.catalogi",
 ]
 
 MIDDLEWARE = [
