@@ -95,11 +95,17 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "producten_of_diensten",
             "hoofdzaak",
             "deelzaken",
+            "_zaaktype",
         )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},
             "hoofdzaak": {
                 "lookup_field": "uuid",
                 "queryset": Zaak.objects.all(),
+            },
+            "_zaaktype": {
+                "lookup_field": "uuid",
+                "max_length": 1000,
+                "min_length": 1,
             },
         }

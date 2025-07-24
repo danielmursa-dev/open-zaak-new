@@ -1,17 +1,21 @@
 import datetime
 import uuid
-from typing import Optional
+from typing import List, Optional
 
 from django.contrib.gis.db.models import GeometryField
 from django.contrib.postgres.fields import ArrayField
+from django.core import checks, exceptions
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
+from django_loose_fk.fields import FkOrURLField
 from relativedeltafield import RelativeDeltaField
 from vng_api_common.constants import Archiefnominatie
 from vng_api_common.descriptors import GegevensGroepType
 from vng_api_common.fields import RSINField, VertrouwelijkheidsAanduidingField
 from vng_api_common.models import APIMixin as _APIMixin
+from zgw_consumers.models import ServiceUrlField
 
 from .constants import BetalingsIndicatie
 
@@ -42,6 +46,108 @@ class GegevensGroepTypeWithReadOnlyFields(GegevensGroepType):
             value[key] = getattr(obj, self.mapping[key].name)
 
         super().__set__(obj, value)
+
+
+class FkOrServiceUrlField(FkOrURLField):
+    """
+    Support :class:`zgw_consumers.ServiceUrlField` as 'url_field'
+    """
+
+    db_default = models.NOT_PROVIDED
+
+    def _add_check_constraint(
+        self, options, name="{prefix}{fk_field}_or_{url_base_field}_filled"
+    ) -> None:
+        """
+        Create the DB constraints and add them if they're not present yet.
+        """
+        if self.null:
+            return
+
+        # during migrations, the FK fields are added later, causing the constraint SQL
+        # building to blow up. We can ignore this at that time.
+        if self.model.__module__ == "__fake__":
+            return
+
+        url_base_field = self._url_field.base_field
+        # one of both MUST be filled and they cannot be filled both at the
+        # same time
+        empty_url_base_field = models.Q(**{f"{url_base_field}__isnull": True})
+        empty_fk_field = models.Q(**{f"{self.fk_field}__isnull": True})
+        fk_filled = ~empty_fk_field & empty_url_base_field
+        url_filled = empty_fk_field & ~empty_url_base_field
+
+        constraint = models.CheckConstraint(
+            name=name.format(
+                prefix=f"{options.app_label}_{options.model_name}_",
+                fk_field=self.fk_field,
+                url_base_field=url_base_field,
+            ),
+            check=fk_filled | url_filled,
+        )
+        options.constraints.append(constraint)
+        # ensure this can be picked up by migrations by making it "explicitly defined"
+        if "constraints" not in options.original_attrs:
+            options.original_attrs["constraints"] = options.constraints
+        return
+
+    def check(self, **kwargs) -> List[checks.Error]:
+        errors = []
+        if not isinstance(self._fk_field, models.ForeignKey):
+            errors.append(
+                checks.Error(
+                    "The field passed to 'fk_field' should be a ForeignKey",
+                    obj=self,
+                    id="fk_or_url_field.E001",
+                )
+            )
+
+        if not isinstance(self._url_field, ServiceUrlField):
+            errors.append(
+                checks.Error(
+                    "The field passed to 'url_field' should be a ServiceUrlField",
+                    obj=self,
+                    id="open_zaak.E001",
+                )
+            )
+
+        return errors
+
+
+def validate_relative_url(value):
+    message = _("Enter a valid relative URL.")
+
+    if value.startswith(("https://", "http://", "fps://", "ftps://", "/")):
+        raise exceptions.ValidationError(
+            message, code="invalid", params={"value": value}
+        )
+
+
+class RelativeURLField(models.CharField):
+    """
+    Model field for relative urls with build-in regex validator
+    """
+
+    default_validators = [validate_relative_url]
+
+    def __init__(self, verbose_name=None, name=None, **kwargs):
+        kwargs.setdefault("max_length", 1000)
+        super().__init__(verbose_name, name, **kwargs)
+
+
+class ServiceFkField(models.ForeignKey):
+    """
+    FK to Service model field
+    """
+
+    def __init__(self, **kwargs):
+        kwargs["to"] = "zgw_consumers.Service"
+        kwargs.setdefault("on_delete", models.PROTECT)
+        kwargs.setdefault("related_name", "+")  # no reverse relations by default
+        kwargs.setdefault("null", True)
+        kwargs.setdefault("blank", True)
+
+        super().__init__(**kwargs)
 
 
 class DurationField(RelativeDeltaField):
@@ -247,4 +353,40 @@ class Zaak(APIMixin, models.Model):
         on_delete=models.CASCADE,
         related_name="deelzaken",
         verbose_name="is deelzaak van",
+    )
+
+    # ZaakType
+
+    _zaaktype_base_url = ServiceFkField(
+        help_text="Basis deel van URL-referentie naar het extern ZAAKTYPE (in een andere Catalogi API).",
+    )
+    _zaaktype_relative_url = RelativeURLField(
+        "zaaktype relative url",
+        blank=True,
+        null=True,
+        help_text="Relatief deel van URL-referentie naar het extern ZAAKTYPE (in een andere Catalogi API).",
+    )
+    _zaaktype_url = ServiceUrlField(
+        base_field="_zaaktype_base_url",
+        relative_field="_zaaktype_relative_url",
+        verbose_name="extern zaaktype",
+        null=True,
+        blank=True,
+        max_length=1000,
+        help_text=_(
+            "URL-referentie naar extern ZAAKTYPE (in een andere Catalogi API)."
+        ),
+    )
+    _zaaktype = models.ForeignKey(
+        "catalogi.ZaakType",
+        on_delete=models.PROTECT,
+        help_text="URL-referentie naar het ZAAKTYPE (in de Catalogi API).",
+        null=True,
+        blank=True,
+    )
+    zaaktype = FkOrServiceUrlField(
+        fk_field="_zaaktype",
+        url_field="_zaaktype_url",
+        help_text="URL-referentie naar het ZAAKTYPE (in de Catalogi API).",
+        null=True,
     )

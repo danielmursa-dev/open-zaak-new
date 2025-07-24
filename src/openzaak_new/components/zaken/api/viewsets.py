@@ -6,6 +6,8 @@ from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from vng_api_common.pagination import DynamicPageSizeMixin
 
+from openzaak_new.components.catalogi.models import ZaakType
+
 from ..models import Zaak
 from .serializers import ZaakSerializer
 
@@ -55,7 +57,11 @@ class ZaakViewSet(CacheQuerysetMixin, viewsets.ModelViewSet):
         .prefetch_related(
             Prefetch(
                 "deelzaken", queryset=Zaak.objects.only("uuid", "pk", "hoofdzaak_id")
-            )
+            ),
+            Prefetch(
+                "_zaaktype",
+                queryset=ZaakType.objects.only("uuid", "pk"),
+            ),
         )
         # .annotate(hoofdzaak_uuid=F("hoofdzaak__uuid"))
         .order_by("-pk")
