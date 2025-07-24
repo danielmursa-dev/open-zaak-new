@@ -236,3 +236,15 @@ class Zaak(APIMixin, models.Model):
     )
 
     verlenging = GegevensGroepType({"reden": verlenging_reden, "duur": verlenging_duur})
+
+    # FK relations
+
+    hoofdzaak = models.ForeignKey(
+        "self",
+        limit_choices_to={"hoofdzaak__isnull": True},
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="deelzaken",
+        verbose_name="is deelzaak van",
+    )

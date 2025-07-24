@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from vng_api_common.serializers import (
     CachedHyperlinkedIdentityField,
+    CachedHyperlinkedRelatedField,
     GegevensGroepSerializer,
 )
 
@@ -53,6 +54,13 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
         required=False,
         allow_null=True,
     )
+    deelzaken = CachedHyperlinkedRelatedField(
+        read_only=True,
+        many=True,
+        view_name="zaak-detail",
+        lookup_url_kwarg="uuid",
+        lookup_field="uuid",
+    )
 
     class Meta:
         model = Zaak
@@ -85,7 +93,13 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "selectielijstklasse",
             "communicatiekanaal",
             "producten_of_diensten",
+            "hoofdzaak",
+            "deelzaken",
         )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},
+            "hoofdzaak": {
+                "lookup_field": "uuid",
+                "queryset": Zaak.objects.all(),
+            },
         }

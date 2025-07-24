@@ -49,19 +49,7 @@ class ExactPagination(DynamicPageSizeMixin, PageNumberPagination):
 
 
 class ZaakViewSet(CacheQuerysetMixin, viewsets.ModelViewSet):
-    # .annotate(
-    # formatted_created=Func(
-    # F("created_on"),
-    # function="TO_CHAR",
-    # template="TO_CHAR(%(expressions)s, 'YYYY-MM-DD\"T\"HH24:MI:SS')",
-    # ),
-    # formatted_laatste_betaaldatum=Func(
-    # F("laatste_betaaldatum"),
-    # function="TO_CHAR",
-    # template="TO_CHAR(%(expressions)s, 'YYYY-MM-DD\"T\"HH24:MI:SS')",
-    # ),
-    # )
-    queryset = Zaak.objects.all().order_by("-pk")
+    queryset = Zaak.objects.prefetch_related("deelzaken").order_by("-pk")
     serializer_class = ZaakSerializer
     lookup_field = "uuid"
     pagination_class = ExactPagination
