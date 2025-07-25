@@ -390,3 +390,13 @@ class Zaak(APIMixin, models.Model):
         help_text="URL-referentie naar het ZAAKTYPE (in de Catalogi API).",
         null=True,
     )
+
+    # Zaak ID
+
+    identificatie = models.CharField(
+        blank=True,
+        max_length=40,
+        default="",
+        db_index=True,
+    )
+    bronorganisatie = RSINField(default="")

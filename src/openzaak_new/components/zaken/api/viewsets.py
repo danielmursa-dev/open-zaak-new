@@ -63,7 +63,6 @@ class ZaakViewSet(CacheQuerysetMixin, viewsets.ModelViewSet):
                 queryset=ZaakType.objects.only("uuid", "pk"),
             ),
         )
-        # .annotate(hoofdzaak_uuid=F("hoofdzaak__uuid"))
         .order_by("-pk")
     )
     serializer_class = ZaakSerializer

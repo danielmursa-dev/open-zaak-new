@@ -96,6 +96,8 @@ class ZaakSerializer(serializers.HyperlinkedModelSerializer):
             "hoofdzaak",
             "deelzaken",
             "_zaaktype",
+            "identificatie",
+            "bronorganisatie",
         )
         extra_kwargs = {
             "url": {"lookup_field": "uuid"},
